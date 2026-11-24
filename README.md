@@ -1,41 +1,45 @@
-[![make.fun · post-x-the-agent-builds-a-game-from-20261122-1709](https://make.fun/badge/post-x-the-agent-builds-a-game-from-20261122-1709.svg)](https://make.fun/bounty/post-x-the-agent-builds-a-game-from-20261122-1709)
-[![rank](https://make.fun/badge/post-x-the-agent-builds-a-game-from-20261122-1709/taniarestu/post-x-agent-builds-a-game/rank.svg)](https://make.fun/bounty/post-x-the-agent-builds-a-game-from-20261122-1709/leaderboard)
-[![reward](https://make.fun/badge/post-x-the-agent-builds-a-game-from-20261122-1709/taniarestu/post-x-agent-builds-a-game/reward.svg)](https://make.fun/bounty/post-x-the-agent-builds-a-game-from-20261122-1709)
+# Solmar Bay — video post for make.fun
 
-# The agent builds a game from one prompt
+Entry for the make.fun bounty **post-x-the-agent-builds-a-game**
+($20, top 10 share the rewards). The entry is a short video posted
+on X about an AI coding agent building a tiny browser game from one
+prompt, while you watch.
 
-An entry for the make.fun bounty “The agent builds a game from one prompt”
-($20 in USDC). The entry is the post itself: a short video about an AI agent
-building a tiny browser game from one prompt, posted on X as a native video.
+## The game
 
-**The game:** [Solmar Bay: Sunset Heat](https://taniarestu.github.io/gta6-open-world/game/)
-— an open-world browser game set in a neon sunset bay city, built by an AI
-agent from one prompt. Three missions, driving, a living city, playable free
-in the browser. The game itself was our entry for the make.fun gta6-01 bounty
-(“Solmar Bay: Sunset Heat”, submitted and scored).
+Solmar Bay is an open-world browser game: a neon sunset bay city
+with three missions, driving, and a living city. It was built from a
+single prompt by an AI agent, and it runs entirely in the browser.
 
-**The prompt:**
+Play it here: https://taniarestu.github.io/gta6-open-world/game/
 
-> Build an open-world browser game: a neon sunset bay city, three missions,
-> driving, a living city. Playable in the browser.
+## The video
 
-**The video:** the prompt, the agent working, and the finished game running —
-ending on make.fun’s referral end card. Made and rendered by the agent with
-ffmpeg in the session that built this repository.
+The clip is about 18 seconds long. It opens with the one prompt on
+screen, then shows the agent working in the terminal, then the
+finished game running, and it closes with make.fun's referral end
+card carrying the referral code below.
 
-**The post:** [`POST.json`](POST.json) names the post’s address on X.
-The post’s text carries make.fun and our play code; places go by the post’s
-score (views + 10 × likes, reposts, quotes and replies).
+The beats, in order:
 
-## What is in this repository
+- 0–6 s: the prompt itself — "one prompt, my AI agent built the
+  whole game" — typed out on screen.
+- 6–12 s: the agent at work, terminal lines appearing as it writes
+  the game files and runs its playtest.
+- 12–18 s: the finished game running, with real gameplay shots of
+  Solmar Bay at sunset, then the referral end card.
 
-- `main.ts` — the entry program (Node 22, standard library only): it copies
-  `POST.json` to `/output`, where the gate reads it.
-- `POST.json` — the post’s address on X.
-- `index.html` — a small showcase page for the game.
-- `video.mp4` is **not** in this repository: the video lives on the post
-  itself (and in our build folder).
+Watch the post on X:
+https://x.com/henhensaputro/status/2125247248942686553
 
-## License
+## Codes
 
-MIT. See [LICENSE](LICENSE).
+- Play code: `makefun-garlic-marble-palm`
+- Referral code: `d89606h2`
+
+## How this entry works
+
+`POST.json` at the repository root names the address of the X post.
+`main.ts` (Node 22) copies that file into the output directory, so
+the house can read the post and score it from its public counts:
+views plus ten times its likes, reposts, quotes and replies.

@@ -1,32 +1,37 @@
-// Entry for make.fun "The agent builds a game from one prompt"
-// (post-x-the-agent-builds-a-game-from-20261122-1709).
-//
-// The entry itself is the post on X: a short video about an AI agent building
-// the browser game "Solmar Bay: Sunset Heat" from one prompt, posted natively
-// on X from a public account, its text carrying make.fun and our play code.
-// The video (18 seconds, with music and sound effects) is the post; this
-// program only hands the post's address to the grader.
-// This program does the only thing the grader asks of code: it hands the
-// post's address to the gate by copying POST.json from the repository root
-// into /output. Nothing it writes about the post is scored; the house reads
-// the post's views and interactions from X itself.
-//
-// Node 22, standard library only, no network.
-//
-// Run it locally the same way the grader does:
-//   mkdir -p out && MAKEFUN_BOT_DIR=. MAKEFUN_OUTPUT_DIR=out node main.ts
+// Entry program for make.fun bounty: post-x-the-agent-builds-a-game.
+// The X post itself is the entry. This program only hands the house
+// the post's address: it copies POST.json from the repository root
+// into the output directory the harness provides.
+import { copyFile, mkdir, readFile } from "node:fs/promises";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
-import { copyFileSync, mkdirSync } from 'node:fs';
-import { join } from 'node:path';
+async function main(): Promise<void> {
+  const outputDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
+  const botDir =
+    process.env.MAKEFUN_BOT_DIR ?? dirname(fileURLToPath(import.meta.url));
+  const source = join(botDir, "POST.json");
+  const target = join(outputDir, "POST.json");
 
-const botDir = process.env.MAKEFUN_BOT_DIR ?? '/bot';
-const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
+  await mkdir(outputDir, { recursive: true });
+  await copyFile(source, target);
 
-mkdirSync(outDir, { recursive: true });
-
-try {
-  copyFileSync(join(botDir, 'POST.json'), join(outDir, 'POST.json'));
-} catch (err) {
-  console.error(`could not copy POST.json from ${botDir}: ${(err as Error).message}`);
-  process.exit(1);
+  // Confirm the copied file really names an X post before we finish.
+  const raw = await readFile(target, "utf8");
+  const parsed: unknown = JSON.parse(raw);
+  if (
+    typeof parsed !== "object" ||
+    parsed === null ||
+    typeof (parsed as { url?: unknown }).url !== "string" ||
+    !(parsed as { url: string }).url.startsWith("https://x.com/")
+  ) {
+    throw new Error("POST.json does not contain a valid X post url");
+  }
+  console.log(`POST.json copied to ${target}`);
+  console.log(`post url: ${(parsed as { url: string }).url}`);
 }
+
+main().catch((error: unknown) => {
+  console.error("post-x entry failed:", error);
+  process.exit(1);
+});
